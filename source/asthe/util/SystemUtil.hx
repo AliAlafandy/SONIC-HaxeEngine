@@ -10,7 +10,7 @@ import sys.io.Process;
 
 class SystemUtil {
 	@:isVar
-	public static var ACCENT_COLOR(get, set):FlxColor = 0xFFFFFF;
+	public static var ACCENT_COLOR(get, set):Int = 0xFFFFFF;
 
 	/**
 		Returns the Directory Separator character  
@@ -79,8 +79,6 @@ class SystemUtil {
 		#end
 	}
 
-	@:privateAccess() private static var _accent:Int = 0xFFFFFF;
-
 	/**
 		Loads the current accent color of the system
 
@@ -120,7 +118,7 @@ class SystemUtil {
 		// Conversion from ABRG to ARGB
 		var accent:String = ColorUtil.convertToHex(result.split("    ")[3].trim(), false, true);
 
-		trace('Loaded!'#if debug + '\nParsed: . $accent\nOriginal: $r'#end.info());
+		trace('Loaded!' #if debug + '\nParsed: . $accent'#end.info());
 		return Std.parseInt(accent);
 		#elseif linux
 		final HOME:String = Sys.getEnv("HOME");
@@ -157,7 +155,7 @@ class SystemUtil {
 	}
 
 	private static function get_ACCENT_COLOR():Int {
-		return _accent;
+		return (ACCENT_COLOR ?? 0xFFFFFFFF);
 	}
 
 	private static function set_ACCENT_COLOR(value:Null<Int>):Int {
@@ -165,8 +163,7 @@ class SystemUtil {
 			trace("Value for accent color is null!".warn());
 		}
 
-		_accent = value ?? 0xFFFFFF;
-		return _accent;
+		return ACCENT_COLOR = (value ?? 0xFFFFFFFF);
 	}
 
 	public static function getSystemName():String {
@@ -185,9 +182,7 @@ class SystemUtil {
 		if (x.contains("GNOME")) return "GNOME";
 		if (x.contains("CINNAMON")) return "CINNAMON";
 		if (x.contains("XFCE")) return "XFCE";
-		return null;
-		#else
-		return null;
 		#end
+		return null;
 	}
 }
