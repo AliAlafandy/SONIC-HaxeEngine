@@ -116,7 +116,7 @@ class SystemUtil {
 		p.close();
 
 		// Conversion from ABRG to ARGB
-		var accent:String = ColorUtil.convertToHex(result.split("    ")[3].trim(), false, true);
+		var accent:String = ColorUtil.convertToHex(result.split("    ")[3].trim(), HEX, false, true);
 
 		trace('Loaded!' #if debug + '\nParsed: . $accent'#end.info());
 		return Std.parseInt(accent);
