@@ -82,7 +82,7 @@ class Project extends HXProject {
 		#end
 		L10n.load();
 
-		this.meta.title = isMobile() ? TITLE_MOBILE : TITLE;
+		this.meta.title = isTarget("mobile") ? TITLE_MOBILE : TITLE;
 		this.meta.version = VERSION;
 		this.meta.company = COMPANY;
 		this.meta.packageName = PACKAGE_NAME.toLowerCase();
@@ -285,7 +285,9 @@ class Project extends HXProject {
 		'APP_PATH=${this.app.path}\n'+
 		'IS_WINDOWS=${isWindows()}\n'+
 		'IS_LINUX=${isLinux()}\n'+
-		'IS_MACOS=${isMacOS()}';
+		'IS_MACOS=${isMacOS()}\n'+
+		'IS_ANDROID=${isAndroid()}\n'+
+		'IS_IOS=${isIOS()}';
 		
 		sys.io.File.saveContent(file, content);
 	}
