@@ -19,7 +19,7 @@ on:
       arch-32: # NOTE: I didn't test it, tell me if it works!
         description: "Should your build be for 32bits?"
         type: boolean
-        default: false
+        default: true
   # push:
     # branches: ["main"]
 jobs:
