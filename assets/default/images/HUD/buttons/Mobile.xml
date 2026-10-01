@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<TextureAtlas imagePath="Mobile.png">
+	<SubTexture name="dpad0000" x="8" y="8" width="64" height="64"/>
+	<SubTexture name="dpad left0000" x="81" y="8" width="64" height="64"/>
+	<SubTexture name="dpad down0000" x="154" y="8" width="64" height="64"/>
+	<SubTexture name="dpad right0000" x="227" y="8" width="64" height="64"/>
+	<SubTexture name="dpad up0000" x="301" y="8" width="64" height="64"/>
+	<SubTexture name="jump0000" x="8" y="78" width="48" height="48"/>
+	<SubTexture name="jump press0000" x="65" y="78" width="48" height="48"/>
+	<SubTexture name="pause0000" x="8" y="132" width="16" height="16"/>
+	<SubTexture name="super0000" x="29" y="132" width="16" height="16"/>
+	<SubTexture name="super anti0000" x="50" y="132" width="16" height="16"/>
+	<SubTexture name="back0000" x="71" y="132" width="16" height="16"/>
+</TextureAtlas>
