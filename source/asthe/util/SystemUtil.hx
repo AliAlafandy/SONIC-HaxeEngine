@@ -105,7 +105,7 @@ class SystemUtil {
 			return 0xFFFFFF;
 		}
 
-		#if sys
+		#if (windows && sys)
 		var p:Process;
 		#end
 
