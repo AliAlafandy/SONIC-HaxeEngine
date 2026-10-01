@@ -23,7 +23,9 @@ class Project extends HXProject {
 		Name of the project  
 		Can be translated on android build (check below)
 	**/
-	inline public static final TITLE = "Another Sonic the Hedgehog Engine";
+	inline public static final TITLE = "Sonic The Hedgehog: Haxe Engine";
+
+	inline public static final TITLE_MOBILE = "Sonic: Haxe Engine";
 
 	/** The description of the project **/
 	inline public static final DESCRIPTION = "Small Sonic the Hedgehog engine made in HaxeFlixel";
@@ -38,7 +40,7 @@ class Project extends HXProject {
 		Package name for the project
 		Ussually in format: com.company.game
 	**/
-	inline public static final PACKAGE_NAME = "game.unrealsunnydev.asthe";
+	inline public static final PACKAGE_NAME = "com.unrealsunnydev.sonicengine";
 
 	/** Name of the executable file (without extension) **/
 	inline public static final FILE = "ASTHE";
@@ -80,7 +82,7 @@ class Project extends HXProject {
 		#end
 		L10n.load();
 
-		this.meta.title = TITLE;
+		this.meta.title = isMobile() ? TITLE_MOBILE : TITLE;
 		this.meta.version = VERSION;
 		this.meta.company = COMPANY;
 		this.meta.packageName = PACKAGE_NAME.toLowerCase();
@@ -101,10 +103,10 @@ class Project extends HXProject {
 			this.window.height = WINDOW_HEIGHT;
 		}
 
-		this.window.orientation  = Orientation.LANDSCAPE;
-		this.window.fps          = 60;
-		this.window.background   = (isDebug() ? 0xFF00FF : 0x000000);
-		this.window.resizable    = (isWeb() || isTarget("desktop")) ? true : false;
+		this.window.orientation = Orientation.LANDSCAPE;
+		this.window.fps = 60;
+		this.window.background = (isDebug() ? 0xFF00FF : 0x000000);
+		this.window.resizable = (isWeb() || isTarget("desktop")) ? true : false;
 		this.window.allowHighDPI = true;
 
 		if (isWeb() || isTarget("flash") || isTarget("air"))
@@ -119,12 +121,12 @@ class Project extends HXProject {
 
 		clearAssets();
 		includeAssets("assets/default", "assets", null, EXCLUDE_ASSETS);
-		includeAssets("assets/fonts",   null);
+		includeAssets("assets/fonts", null);
 
 		if (TRANSLATIONS_ALLOWED.has(this))
-			includeAssets("assets/locales",        null);
+			includeAssets("assets/locales", null);
 		else {
-			includeAssets("assets/locales/en-US",  null);
+			includeAssets("assets/locales/en-US", null);
 			includeAssets("assets/locales/_icons", null); // For FireTongue stop welling about icons
 			assets.push(new Asset("assets/locales/index.xml", null, AssetType.TEXT));
 		}
@@ -142,8 +144,8 @@ class Project extends HXProject {
 		addHaxelib("flixel-addons");
 
 		addHaxelib("hxdiscord_rpc", DISCORD_ALLOWED.get(this));
-		addHaxelib("polymod",       MODS_ALLOWED.get(this));
-		addHaxelib("firetongue",    true); // Do NOT disable this, or all texts will not load
+		addHaxelib("polymod", MODS_ALLOWED.get(this));
+		addHaxelib("firetongue", true); // Do NOT disable this, or all texts will not load
 
 		/*
 			--------------------
@@ -174,13 +176,13 @@ class Project extends HXProject {
 
 		// Configure PolyMod
 		if (MODS_ALLOWED.has(this)) {
-			this.haxedefs.set("POLYMOD_API_VERSION_MATCH",  "NONE");
-			this.haxedefs.set("POLYMOD_MOD_METADATA_FILE",  "mod.json");
-			this.haxedefs.set("POLYMOD_MOD_PACK_FILE",      "modpack.txt");
-			this.haxedefs.set("POLYMOD_MOD_ICON_FILE",      "mod.png");
-			this.haxedefs.set("POLYMOD_ROOT_PATH",          "scripts/");
-			this.haxedefs.set("POLYMOD_SCRIPT_EXT",         ".hxs");
-			this.haxedefs.set("POLYMOD_SCRIPT_LIBRARY",     "scripts");
+			this.haxedefs.set("POLYMOD_API_VERSION_MATCH", "NONE");
+			this.haxedefs.set("POLYMOD_MOD_METADATA_FILE", "mod.json");
+			this.haxedefs.set("POLYMOD_MOD_PACK_FILE", "modpack.txt");
+			this.haxedefs.set("POLYMOD_MOD_ICON_FILE", "mod.png");
+			this.haxedefs.set("POLYMOD_ROOT_PATH", "scripts/");
+			this.haxedefs.set("POLYMOD_SCRIPT_EXT", ".hxs");
+			this.haxedefs.set("POLYMOD_SCRIPT_LIBRARY", "scripts");
 
 			if (isDebug())
 				this.haxedefs.set("POLYMOD_DEBUG", true);
@@ -502,10 +504,10 @@ class Project extends HXProject {
 	Contains also functions for enabling/disabling, get values and check existence
 **/
 enum abstract FeatureFlags(String) from String to String {
-	var MODS_ALLOWED		 = "MODS_ALLOWED";
-	var DISCORD_ALLOWED		 = "DISCORD_ALLOWED";
+	var MODS_ALLOWED = "MODS_ALLOWED";
+	var DISCORD_ALLOWED = "DISCORD_ALLOWED";
 	var TRANSLATIONS_ALLOWED = "TRANSLATIONS_ALLOWED";
-	//var VIDEOS_ALLOWED	 = "VIDEOS_ALLOWED";
+	//var VIDEOS_ALLOWED = "VIDEOS_ALLOWED";
 
 	public function set(project:Project, ?enable:Bool = true) {
 		var enabled:Bool = (enable == true || enable == null);
