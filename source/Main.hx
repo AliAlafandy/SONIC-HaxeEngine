@@ -86,7 +86,7 @@ class Main extends Sprite {
 
 		var msg:String = "Error!\n";
 
-		msg += e.error + "\n\nReport this in Github: https://github.com/unrealsunnydev/ASTHE/issues";
+		msg += e.error + "\n\nReport this in Github: https://github.com/AliAlafandy/SONIC-HaxeEngine/issues";
 
 		#if sys
 		FileUtil.saveContent(folderPath + 'ASTHE_${date}.log', msg);
