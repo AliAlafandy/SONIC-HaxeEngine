@@ -43,7 +43,7 @@ class Project extends HXProject {
 	inline public static final PACKAGE_NAME = "com.unrealsunnydev.sonicengine";
 
 	/** Name of the executable file (without extension) **/
-	inline public static final FILE = "ASTHE";
+	inline public static final FILE = "SonicEngine";
 
 	/** List of supported languages that the game uses **/
 	public static final LANGUAGES = ["en", "pt-BR"];
