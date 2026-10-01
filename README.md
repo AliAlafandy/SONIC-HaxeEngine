@@ -1,4 +1,4 @@
-# Sonic: Haxe Engine
+# Sonic The Hedgehog: Haxe Engine
 This is an Sonic engine, made just for fun!
 It haves code parts from [Psych Engine][psych_engine]... I'm planning on replacement for all this stuff.
 
