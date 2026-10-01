@@ -20,8 +20,8 @@ on:
         description: "Should your build be for 32bits?"
         type: boolean
         default: false
-  push:
-    branches: ["main"]
+  # push:
+    # branches: ["main"]
 jobs:
   build:
     name: "Build the game (${{matrix.target}})"
