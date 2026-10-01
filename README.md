@@ -1,14 +1,14 @@
-# ASTHE (An Sonic the Hedgehog Engine)
+# Sonic: Haxe Engine
 This is an Sonic engine, made just for fun!
 It haves code parts from [Psych Engine][psych_engine]... I'm planning on replacement for all this stuff.
 
-Help would be appreciated!
-Call me on Discord if you want to [talk with me][sunnydev_discord].
+Thx to [sunnydev](https://github.com/unrealsunnydev) for made this project!
+Call me on Discord if you want to talk with me ```@alialafandy```.
 
 <details>
 <summary><h2>Pre-Build Downloads</h2></summary>
 
-You can download the latest pre-builds directly from the [Actions tab](https://github.com/unrealsunnydev/ASTHE/actions)<br>
+You can download the latest pre-builds directly from the [Actions tab](https://github.com/AliAlafandy/SONIC-HaxeEngine/actions)<br>
 Please note that official standalone releases won't be available until the game reaches a playable state.
 </details>
 
@@ -45,9 +45,6 @@ Check [Modding Docs](https://github.com/unrealsunnydev/ASTHE/wiki/01-Creating-a-
 **The code from Psych Engine is getting referenced times by times**, but theres parts that I coded myself.
 If you see something wrong in this project, **PLEASE, [CONTACT ME][sunnydev_discord]!**
 </details>
-
-<!-- My Discord link -->
-[sunnydev_discord]: <https://discordapp.com/users/525334699069931521> "Sunnydev's Discord profile"
 
 <!-- Links -->
 [haxe]: <https://haxe.org/download/version/4.3.2/> "Haxe Website"
