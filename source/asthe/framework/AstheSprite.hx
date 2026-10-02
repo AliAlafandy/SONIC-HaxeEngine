@@ -1,5 +1,5 @@
 /*
-	Sunnydev31 (@unreal.sunnydev) - Last Edition: 2026-16-04
+	Sunnydev31 (@unreal.sunnydev) - Last Edition: 2026-10-01
 	You are allowed to use, modify and redistribute this code
 	Credit is not needed, but are appreciated.
 */
@@ -20,11 +20,13 @@ import flixel.system.FlxAssets.FlxGraphicAsset;
 
 	Example:
 	```haxe
-	var mySprite:AstheSprite = new AstheSprite();
-	mySprite.create(0, 0, "My Sprite"); // calls `loadGraphic(Paths.image("My Sprite"));` + `setPosition(0, 0);`
+	var mySprite:AstheSprite = AstheSprite.create(0, 0, "My Sprite"); // calls `new AstheSprite().loadSprite(Paths.image("My Sprite"));` + `setPosition(0, 0);`
 	```
 **/
 class AstheSprite extends FlxSprite {
+	/**
+		Returns the amount of frames get on Adaptive Sprite Sheet.
+	**/
 	public var frameCount:Int = 0;
 
 	public function new(?x:Float = 0, ?y:Float = 0.0) {
@@ -39,8 +41,7 @@ class AstheSprite extends FlxSprite {
 		@return AstheSprite
 	**/
 	public static function create(x:Float = 0, y:Float = 0, image:Null<String>):AstheSprite {
-		var spr:AstheSprite = new AstheSprite(x, y);
-		spr.loadSprite(image);
+		var spr:AstheSprite = new AstheSprite(x, y).loadSprite(image);
 		return spr;
 	}
 
@@ -86,7 +87,7 @@ class AstheSprite extends FlxSprite {
 		@param width The width of the sprite
 		@param height The height of the sprite
 		@param colors The colors to create the gradient. Like: `[COLOR1, COLOR2]`...
-		@param chuncks
+		@param chuncks If you want a more old-skool looking chunky gradient, increase this value!
 		@param angle Angle of the gradient
 		@param interp Should the colors interpolate?
 		@return FlxSprite
@@ -99,7 +100,7 @@ class AstheSprite extends FlxSprite {
 	}
 
 	/**
-		Creates a colored rectangle
+		Creates a solid shape
 		@param width The width of the rectangle
 		@param height The height of the rectangle
 		@param color The color to fill
@@ -109,12 +110,14 @@ class AstheSprite extends FlxSprite {
 		var graph:FlxGraphic = FlxG.bitmap.create(2, 2, color, false, 'graphic($width,$height,${color.toWebString()})');
 		frames = graph.imageFrame;
 		scale.set(width / 2, height / 2);
-		updateHitbox(); // We can't use our tool because it's not a FlxSprite-type
+		updateHitbox();
 		return this;
 	}
 
 	/**
 		Creates a 9-Sliced sprite!
+		
+		WARNING: Large graphics will stutter the game due to memory usage
 		@param x Position horizontally
 		@param y Vertical position
 		@param width Width to final sprite
@@ -133,9 +136,14 @@ class AstheSprite extends FlxSprite {
 		return sliceSprite;
 	}
 
+	/**
+	Loads a single image sprite
+	@param image Sprite file name
+	@return AstheSprite
+	**/
 	public function loadSprite(image:String):AstheSprite {
 		if (StringUtil.isBlank(image)) {
-			trace("'Image' argument is null/empty!".error());
+			trace("'Image' argument is blank!".error());
 			return this;
 		}
 
@@ -151,9 +159,16 @@ class AstheSprite extends FlxSprite {
 		return this;
 	}
 
+	/**
+	Loads a Spritesheet (grid mode)
+	@param image Sprite sheet file name
+	@param fWidth Sprite frame width
+	@param fHeight Sprite frame height
+	@return AstheSprite
+	**/
 	public function loadSpriteSheet(image:String, fWidth:Int, fHeight:Int):AstheSprite {
 		if (StringUtil.isBlank(image)) {
-			trace("'Image' argument is null/empty!".error());
+			trace("'Image' argument is blank!".error());
 			return this;
 		}
 
@@ -177,10 +192,8 @@ class AstheSprite extends FlxSprite {
 	**/
 	public function loadAdaptiveSpriteSheet(image:String, ?vertical:Bool = false):AstheSprite {
 		if (StringUtil.isBlank(image)) {
-			trace("'Image' argument is null/empty!".error());
+			trace("'Image' argument is blank!".error());
 		}
-
-		//trace('Image: $image');
 
 		var graphic:FlxGraphic = Paths.image(image);
 
@@ -197,9 +210,14 @@ class AstheSprite extends FlxSprite {
 		return this;
 	}
 
+	/**
+		Loads an Sparrow Atlas (V2) sprite
+		@param image Sprite file name
+		@return AstheSprite
+	**/
 	public function loadSparrow(image:String):AstheSprite {
 		if (StringUtil.isBlank(image)) {
-			trace("'Image' argument is null/empty!".warn());
+			trace("'Image' argument is blank!".warn());
 			return this;
 		}
 
@@ -216,22 +234,22 @@ class AstheSprite extends FlxSprite {
 
 	private var paletteApplied:Bool = false;
 	/**
-		Switches global colors into custom colors using GLSL shader  
-		Note that the sprite must be added or loaded to work  
+		Switches global colors into custom colors, note that the sprite must
+		be added or loaded to work  
 		The global color is stored at `backend.Constants.PALETTE_OVERRIDE`
 
 		@param pal The colors to replace in order, Must match the length of Constants.PALETTE_OVERRIDE
-		@param tolerance Color matching tolerance (0.0 - 1.0, default 0.1)
 		@return AstheSprite
 	**/
 	public function applyPalette(pal:Array<FlxColor>):AstheSprite {
+		// TODO: Add shaders support and palette system via GLSL
 		if (ClientPrefs.data.options.cacheOnGPU) {
-			trace("Caching sprites is enabled! Returning or it will throw an error...".warn());
+			trace("Caching sprites is enabled! Not applying palette.".warn());
 			return this;
 		}
 
 		if (ArrayUtil.isBlank(pal)) {
-			trace("Palette array is null! Cannot apply this palette into sprite".error());
+			trace("Palette array is blank! Cannot apply this palette into sprite".error());
 			return this;
 		}
 
@@ -250,7 +268,7 @@ class AstheSprite extends FlxSprite {
 		final modSize = pal.length;
 
 		if (modSize != ogSize) {
-			trace("'The palette array on sprite '{0}' is not the same length as the default!'".error(), this);
+			trace("The palette array on sprite '{0}' is not the same length as the default!".error(), this);
 			return this;
 		}
 
@@ -261,7 +279,7 @@ class AstheSprite extends FlxSprite {
 			paletteApplied = true;
 		}
 		catch (e:Dynamic) {
-			trace('Something gone wrong when applying palette: $e'.error());
+			trace("Something gone wrong when applying palette: {0}".error(), e);
 		}
 
 		return this;

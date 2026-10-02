@@ -2,11 +2,6 @@ name: "ASTHE Build"
 on:
   workflow_dispatch:
     inputs:
-      # Most of these parameters are available on the Setup Script
-      # You can only change them if:
-      # - You called the script on terminal and not double-clicked it
-      # - You change the behavior of the script (lol)
-
       build-type:
         description: "Select the build type of the game."
         type: choice
@@ -28,7 +23,7 @@ jobs:
     permissions: write-all
     strategy:
       fail-fast: false
-      max-parallel: 1
+      max-parallel: 3
       matrix:
         include:
           - target: "windows"
@@ -70,7 +65,7 @@ jobs:
           haxelib --global run hmm install
       - name: "Build the Game (Release)"
         if: ${{ github.event.inputs.build-type == 'release' }}
-        run: haxelib run lime build cpp -debug
+        run: haxelib run lime build cpp
       - name: "Build the Game (Debug)"
         if: ${{ github.event.inputs.build-type == 'debug' || github.event.inputs.build-type == '' }}
         run: haxelib run lime build cpp -debug
