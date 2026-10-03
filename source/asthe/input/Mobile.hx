@@ -1,4 +1,4 @@
-package;
+package asthe.input;
 
 #if mobile
 import flixel.FlxG;
