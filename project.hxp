@@ -155,7 +155,7 @@ class Project extends HXProject {
 		if (isAndroid()) {
 			addHaxelib("extension-androidtools");
 
-			certificate = new lime.tools.Certificate();
+			var certificate = new lime.tools.Certificate();
 			certificate.path = "key.keystore";
 			certificate.password = "@ellawy09";
 			certificate.alias = "alafandy";
