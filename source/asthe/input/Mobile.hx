@@ -19,7 +19,7 @@ class Mobile extends FlxGroup
     public var jumpPressed:Bool = false;
 
     public var pause:Bool = false;
-		public var pausePressed:Bool = false;
+	public var pausePressed:Bool = false;
 
     public var superPressed:Bool = false;
     public var superAntiPressed:Bool = false;
@@ -46,7 +46,7 @@ class Mobile extends FlxGroup
     private var previousJump:Bool = false;
     private var previousPause:Bool = false;
 
-    public function new()
+    public function new(DPad:String, Action:String)
     {
         super();
         scrollFactor.set(0, 0);
@@ -69,24 +69,37 @@ class Mobile extends FlxGroup
         upButton = createButton("dpad up0000");
         downButton = createButton("dpad down0000");
 
-        add(leftButton);
-        add(rightButton);
-        add(upButton);
-        add(downButton);
+		if (DPad == "EXITE") {
+        	add(leftButton);
+        	add(rightButton);
+        	add(upButton);
+        	add(downButton);
+		}
 
         jumpButton = createButton("jump0000");
-        add(jumpButton);
-
         pauseButton = createButton("pause0000");
-        add(pauseButton);
-
         superButton = createButton("super0000");
         superAntiButton = createButton("super anti0000");
         backButton = createButton("back0000");
 
-        add(superButton);
-        add(superAntiButton);
-        add(backButton);
+		if (Action == "PLAY") {
+			add(jumpButton);
+			add(pauseButton);
+        	add(superButton);
+        	add(superAntiButton);
+        	add(backButton);
+		} else if (Action == "MENU") {
+			add(jumpButton);
+        	add(backButton);
+		} else if (Action == "JUMP") {
+			add(jumpButton);
+		} else if (Action == "PAUSE") {
+			add(pauseButton);
+		} else if (Action == "BACK") {
+        	add(backButton);
+		} else {
+			// Error
+		}
 
         superButton.visible = false;
         superAntiButton.visible = false;
