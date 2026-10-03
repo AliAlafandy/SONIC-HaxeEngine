@@ -19,15 +19,8 @@ import asthe.backend.SubStateManager;
 import asthe.input.Controls;
 import asthe.states.LoadingState;
 import asthe.framework.*;
-import util.*;
-
-#if mobile
 import asthe.util.*;
-#else
-import asthe.util.Controls;
-import asthe.util.InputFormatter;
-import asthe.util.InputList;
-#end
+import util.*;
 
 using util.StringUtil;
 using asthe.util.Ansi;
