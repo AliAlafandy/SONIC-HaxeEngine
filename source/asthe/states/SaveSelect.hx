@@ -26,6 +26,10 @@ class SaveSelect extends StateManager {
 
 	public static var charList:Array<String>;
 
+	#if mobile
+	var mobileHUD:Mobile;
+	#end
+
 	override function create() {
 		Paths.clearUnusedMemory();
 		Paths.clearStoredMemory();
@@ -94,6 +98,11 @@ class SaveSelect extends StateManager {
 
 		super.create();
 		AstheSound.playMusic("SaveSelect");
+
+		#if mobile
+		mobileHUD = new Mobile();
+		add(mobileHUD);
+		#end
 	}
 
 	override function update(e:Float) {
@@ -103,8 +112,7 @@ class SaveSelect extends StateManager {
 			if (getSaveState(curSlot) == InProgress) {
 				ClientPrefs.loadSlot(curSlot);
 				LoadingState.switchStates(new asthe.states.PlayState(), true);
-			}
-			else {
+			} else {
 				ClientPrefs.createSlot(curSlot, Constants.DEFAULT_CHARACTER);
 				LoadingState.switchStates(new asthe.states.PlayState(), true);
 			}
@@ -124,6 +132,38 @@ class SaveSelect extends StateManager {
 		if (controls.LEFT || controls.RIGHT) {
 			changeSlot(controls.LEFT ? -1 : 1);
 		}
+
+		#if mobile
+		if (mobileHUD != null)
+		{
+			if (mobileHUD.jumpPressed) {
+        		if (getSaveState(curSlot) == InProgress) {
+					ClientPrefs.loadSlot(curSlot);
+					LoadingState.switchStates(new asthe.states.PlayState(), true);
+				} else {
+					ClientPrefs.createSlot(curSlot, Constants.DEFAULT_CHARACTER);
+					LoadingState.switchStates(new asthe.states.PlayState(), true);
+				}
+			}
+
+			if (mobileHUD.backPressed) {
+        		FlxG.switchState(() -> new asthe.states.MainMenu());
+			}
+
+    		if (mobileHUD.up || mobileHUD.down) {
+        		switch (getSaveState(curSlot)) {
+					case New:
+						changeCharacter(mobileHUD.up ? -1 : 1);
+					default:
+				}
+   			}
+
+			if (mobileHUD.left || mobileHUD.right) {
+				changeCharacter(mobileHUD.left ? -1 : 1);
+			}
+		}
+		#end
+
 	}
 
 	function reloadCharacters():Void {
