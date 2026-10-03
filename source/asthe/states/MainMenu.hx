@@ -101,7 +101,7 @@ class MainMenu extends StateManager {
 		AstheSound.playMusic("MainMenu", { persist: true });
 
 		#if mobile
-		mobileHUD = new Mobile();
+		mobileHUD = new Mobile("EXITE", "MENU");
 		add(mobileHUD);
 		#end
 	}
