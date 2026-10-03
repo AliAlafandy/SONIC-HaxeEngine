@@ -35,5 +35,15 @@ class TitleState extends StateManager {
 		if (controls.ACCEPT)
 			FlxG.switchState(() -> new asthe.states.MainMenu());
 
+		var pressedEnter:Bool = controls.ACCEPT;
+		#if FLX_TOUCH
+		for (touch in FlxG.touches.list)
+		{
+			if (touch.justPressed)
+			{
+				pressedEnter = true;
+			}
+		}
+		#end
 	}
 }
