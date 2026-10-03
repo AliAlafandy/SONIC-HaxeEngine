@@ -23,6 +23,10 @@ class PlayState extends StateManager {
 
 	public var uiGroup:FlxSpriteGroup;
 
+	#if mobile
+	var mobileHUD:Mobile;
+	#end
+
 	override public function create() {
 		//trace("Character: {0}", ClientPrefs.loadSlotData(ClientPrefs.currentSlot).character ?? "Constants.DEFAULT_CHARACTER");
 		instance = this;
@@ -76,6 +80,11 @@ class PlayState extends StateManager {
 		add(ground);
 
 		AstheSound.playMusic("GreenHill1");
+
+		#if mobile
+		mobileHUD = new Mobile();
+		add(mobileHUD);
+		#end
 	}
 
 	override public function update(elapsed:Float) {
@@ -95,11 +104,45 @@ class PlayState extends StateManager {
 
 		if (controls.PAUSE)
 			openPauseMenu();
+
+		#if mobile
+		if (mobileHUD != null)
+		{
+    		if (mobileHUD.left)
+        		player.velocity.x = -playerSpeed;
+
+    		if (mobileHUD.right)
+        		player.velocity.x = playerSpeed;
+
+    		if (!mobileHUD.left && !mobileHUD.right)
+        		player.velocity.x = 0;
+
+    		if (mobileHUD.down)
+    		{
+        		// Sonic اcrouch / roll
+   			}
+
+    		if (mobileHUD.up)
+    		{
+        		// Sonic look up
+    		}
+
+    		if (mobileHUD.jumpPressed)
+    		{
+        		// Sonic jump
+        		player.velocity.y = -jumpSpeed;
+    		}
+
+    		if (mobileHUD.pausePressed)
+    		{
+        		openPauseMenu();
+    		}
+		}
+		#end
 	}
 
 	function openPauseMenu() {
 		FlxG.sound.music?.pause();
-
 		openSubState(new asthe.substates.Pause());
 	}
 }
