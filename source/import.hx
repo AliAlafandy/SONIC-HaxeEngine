@@ -2,17 +2,33 @@
 import asthe.backend.ClientPrefs;
 import asthe.backend.Constants;
 import asthe.backend.CoolUtil;
-#if DISCORD_ALLOWED import asthe.backend.DiscordClient; #end
+
+#if DISCORD_ALLOWED
+import asthe.backend.DiscordClient;
+#end
+
 import asthe.backend.Locale;
-#if MODS_ALLOWED import asthe.backend.Mods; #end
+
+#if MODS_ALLOWED
+import asthe.backend.Mods;
+#end
+
 import asthe.backend.Paths;
 import asthe.backend.StateManager;
 import asthe.backend.SubStateManager;
 import asthe.input.Controls;
 import asthe.states.LoadingState;
 import asthe.framework.*;
-import asthe.util.*;
 import util.*;
+
+#if mobile
+import asthe.util.*;
+#else
+import asthe.util.Controls;
+import asthe.util.InputFormatter;
+import asthe.util.InputList;
+#end
+
 using util.StringUtil;
 using asthe.util.Ansi;
 
