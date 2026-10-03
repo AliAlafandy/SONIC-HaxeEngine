@@ -108,9 +108,10 @@ class MainMenu extends StateManager {
 
 	var selectedSomethin:Bool = false;
 	override function update(elapsed:Float) {
+		var mult:Int = (FlxG.keys.pressed.SHIFT) ? 4 : 1;
+		var scroll = FlxG.mouse.wheel;
+
 		if (!selectedSomethin) {
-			var mult:Int = (FlxG.keys.pressed.SHIFT) ? 4 : 1;
-			var scroll = FlxG.mouse.wheel;
 			if (controls.UP || controls.DOWN || scroll != 0) {
 				changeItem(((controls.UP ? -1 : controls.DOWN ? 1 : 0) - scroll) * mult);
 			}
@@ -133,18 +134,20 @@ class MainMenu extends StateManager {
 		#if mobile
 		if (mobileHUD != null)
 		{
-    		if (mobileHUD.up || mobileHUD.down || scroll != 0) {
-        		changeItem(((mobileHUD.up ? -1 : mobileHUD.down ? 1 : 0) - scroll) * mult);
-   			}
+			if (!selectedSomethin) {
+    			if (mobileHUD.up || mobileHUD.down || scroll != 0) {
+        			changeItem(((mobileHUD.up ? -1 : mobileHUD.down ? 1 : 0) - scroll) * mult);
+   				}
 
-    		if (mobileHUD.jumpPressed) {
-        		selectedSomethin = true;
-				selectItem(options[curSelected]);
-			}
+    			if (mobileHUD.jumpPressed) {
+        			selectedSomethin = true;
+					selectItem(options[curSelected]);
+				}
 
-			if (mobileHUD.backPressed) {
-        		AstheSound.playSound(ConstantSound.MENU_BACK);
-				FlxG.switchState(() -> new TitleState());
+				if (mobileHUD.backPressed) {
+        			AstheSound.playSound(ConstantSound.MENU_BACK);
+					FlxG.switchState(() -> new TitleState());
+				}
 			}
 		}
 		#end
