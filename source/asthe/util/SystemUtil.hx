@@ -105,12 +105,8 @@ class SystemUtil {
 			return 0xFFFFFF;
 		}
 
-		#if sys
-		var p:Process;
-		#end
-
 		#if (windows && sys)
-		// Run a command to get the value
+		var p:Process; // Run a command to get the value
 		p = new Process("reg", ["query", "HKCU\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Explorer\\Accent", "/v", "AccentColorMenu"]);
 		var result:String = p.stdout.readAll().toString();
 		p.close();
@@ -118,9 +114,9 @@ class SystemUtil {
 		// Conversion from ABRG to ARGB
 		var accent:String = ColorUtil.convertToHex(result.split("    ")[3].trim(), HEX, false, true);
 
-		trace('Loaded!' #if debug + '\nParsed: . $accent'#end.info());
+		trace('Loaded!'.info() #if debug + '\nParsed: . $accent' #end);
 		return Std.parseInt(accent);
-		#elseif linux
+		#elseif (linux && sys)
 		final HOME:String = Sys.getEnv("HOME");
 
 		// TODO: Add support to GNOME, XFCE and more.
@@ -136,7 +132,7 @@ class SystemUtil {
 				accent += StringTools.hex(Std.parseInt(rawAccent[1]), 2);
 				accent += StringTools.hex(Std.parseInt(rawAccent[2]), 2);
 
-				trace('Loaded!'#if debug + '\nParsed: . $accent\nOriginal: $rawAccent'#end.info());
+				trace('Loaded!'.info() #if debug + '\nParsed: . $accent\nOriginal: $rawAccent' #end);
 				return Std.parseInt(accent);
 			/*
 			case "GNOME":
@@ -149,7 +145,7 @@ class SystemUtil {
 			default:
 				return loadBlankColor();
 		}
-		#elseif (mac || !sys) // I don't know how accent colors works on other systems...
+		#else // I don't know how accent colors works on other systems...
 		return loadBlankColor();
 		#end
 	}
