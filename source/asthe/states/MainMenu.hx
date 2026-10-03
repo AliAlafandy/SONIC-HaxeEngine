@@ -23,9 +23,17 @@ class MainMenu extends StateManager {
 	var options:Array<String> = [
 		"Save Select",
 		"Options",
-		#if MODS_ALLOWED "Mods", #end
+
+		#if MODS_ALLOWED
+		"Mods",
+		#end
+
 		"Exit"
 	];
+
+	#if mobile
+	var mobileHUD:Mobile;
+	#end
 
 	override function create():Void {
 		Paths.clearStoredMemory();
@@ -91,6 +99,11 @@ class MainMenu extends StateManager {
 		super.create();
 		changeItem();
 		AstheSound.playMusic("MainMenu", { persist: true });
+
+		#if mobile
+		mobileHUD = new Mobile();
+		add(mobileHUD);
+		#end
 	}
 
 	var selectedSomethin:Bool = false;
@@ -116,6 +129,25 @@ class MainMenu extends StateManager {
 		if (FlxG.keys.justPressed.SEVEN) {
 			FlxG.switchState(() -> new asthe.states.editor.MainMenuEdt());
 		}
+
+		#if mobile
+		if (mobileHUD != null)
+		{
+    		if (mobileHUD.up || mobileHUD.down || scroll != 0) {
+        		changeItem(((mobileHUD.up ? -1 : mobileHUD.down ? 1 : 0) - scroll) * mult);
+   			}
+
+    		if (mobileHUD.jumpPressed) {
+        		selectedSomethin = true;
+				selectItem(options[curSelected]);
+			}
+
+			if (mobileHUD.backPressed) {
+        		AstheSound.playSound(ConstantSound.MENU_BACK);
+				FlxG.switchState(() -> new TitleState());
+			}
+		}
+		#end
 
 		super.update(elapsed);
 	}
