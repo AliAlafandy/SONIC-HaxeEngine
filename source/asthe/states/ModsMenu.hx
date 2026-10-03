@@ -33,6 +33,10 @@ class ModsMenu extends StateManager {
 	var authors:AstheText = new AstheText(0, 0, "");
 	var desc:AstheText = new AstheText(0, 0, "");
 
+	#if mobile
+	var mobileHUD:Mobile;
+	#end
+
 	override function create() {
 		Paths.clearStoredMemory();
 		Paths.clearUnusedMemory();
@@ -90,6 +94,15 @@ class ModsMenu extends StateManager {
 		super.create();
 		changeItem(0);
 		AstheSound.playMusic("MainMenu", { persist: true });
+
+		#if mobile
+		if (hasMods) {
+			mobileHUD = new Mobile("NONE", "BACK");
+		} else {
+			mobileHUD = new Mobile("EXITE", "MENU");
+		}
+		add(mobileHUD);
+		#end
 	}
 
 	override function update(e:Float) {
@@ -98,13 +111,33 @@ class ModsMenu extends StateManager {
 			FlxG.switchState(() -> new asthe.states.MainMenu());
 		}
 
+		var mult:Int = (FlxG.keys.pressed.SHIFT) ? 4 : 1;
+		var scroll = FlxG.mouse.wheel;
+
 		if (hasMods) {
-			var mult:Int = (FlxG.keys.pressed.SHIFT) ? 4 : 1;
-			var scroll = FlxG.mouse.wheel;
 			if (controls.UP || controls.DOWN || scroll != 0) {
 				changeItem(((controls.UP ? -1 : controls.DOWN ? 1 : 0) - scroll) * mult);
 			}
 		}
+
+		#if mobile
+		if (mobileHUD != null)
+		{
+			if (mobileHUD.backPressed) {
+        		AstheSound.playSound(ConstantSound.MENU_BACK);
+				FlxG.switchState(() -> new asthe.states.MainMenu());
+			}
+
+			if (hasMods) {
+    			if (mobileHUD.up || mobileHUD.down || scroll != 0) {
+        			changeItem(((mobileHUD.up ? -1 : mobileHUD.down ? 1 : 0) - scroll) * mult);
+   				}
+    			/*if (mobileHUD.jumpPressed) {
+        			// on, off
+				}*/
+			}
+		}
+		#end
 
 		super.update(e);
 	}
