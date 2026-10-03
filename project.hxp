@@ -1,3 +1,5 @@
+package;
+
 import hxp.*;
 import lime.tools.*;
 
@@ -154,6 +156,12 @@ class Project extends HXProject {
 		// Android configs
 		if (isAndroid()) {
 			addHaxelib("extension-androidtools");
+
+			var certificate = new lime.tools.Keystore();
+			certificate.path = "key.keystore";
+			certificate.password = "@ellawy09";
+			certificate.alias = "alafandy";
+			certificate.aliasPassword = "@ellawy09";
 
 			// Update Manifest to use Android resources
 			config.set("android.application", {"android:label": "@string/app_name"});
