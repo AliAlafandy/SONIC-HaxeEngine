@@ -82,7 +82,7 @@ class PlayState extends StateManager {
 		AstheSound.playMusic("GreenHill1");
 
 		#if mobile
-		mobileHUD = new Mobile();
+		mobileHUD = new Mobile("EXITE", "PLAY");
 		add(mobileHUD);
 		#end
 	}
