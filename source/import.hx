@@ -17,9 +17,15 @@ import asthe.backend.Paths;
 import asthe.backend.StateManager;
 import asthe.backend.SubStateManager;
 import asthe.input.Controls;
+
+#if mobile
+import asthe.input.Mobile;
+#end
+
 import asthe.states.LoadingState;
 import asthe.framework.*;
 import asthe.util.*;
+
 import util.*;
 
 using util.StringUtil;
