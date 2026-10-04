@@ -100,7 +100,7 @@ class SaveSelect extends StateManager {
 		AstheSound.playMusic("SaveSelect");
 
 		#if mobile
-		mobileHUD = new Mobile();
+		mobileHUD = new Mobile("EXITE", "MENU");
 		add(mobileHUD);
 		#end
 	}
