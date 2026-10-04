@@ -31,10 +31,6 @@ class MainMenu extends StateManager {
 		"Exit"
 	];
 
-	#if mobile
-	var mobileHUD:Mobile;
-	#end
-
 	override function create():Void {
 		Paths.clearStoredMemory();
 
@@ -101,8 +97,7 @@ class MainMenu extends StateManager {
 		AstheSound.playMusic("MainMenu", { persist: true });
 
 		#if mobile
-		mobileHUD = new Mobile("EXITE", "MENU");
-		add(mobileHUD);
+		addMobileHUD("EXITE", "MENU");
 		#end
 	}
 
@@ -132,22 +127,19 @@ class MainMenu extends StateManager {
 		}
 
 		#if mobile
-		if (mobileHUD != null)
-		{
-			if (!selectedSomethin) {
-    			if (mobileHUD.up || mobileHUD.down || scroll != 0) {
-        			changeItem(((mobileHUD.up ? -1 : mobileHUD.down ? 1 : 0) - scroll) * mult);
-   				}
+		if (!selectedSomethin) {
+    		if (mobileHUD.up || mobileHUD.down || scroll != 0) {
+        		changeItem(((mobileHUD.up ? -1 : mobileHUD.down ? 1 : 0) - scroll) * mult);
+   			}
 
-    			if (mobileHUD.jumpPressed) {
-        			selectedSomethin = true;
-					selectItem(options[curSelected]);
-				}
+    		if (mobileHUD.jumpPressed) {
+        		selectedSomethin = true;
+				selectItem(options[curSelected]);
+			}
 
-				if (mobileHUD.backPressed) {
-        			AstheSound.playSound(ConstantSound.MENU_BACK);
-					FlxG.switchState(() -> new TitleState());
-				}
+			if (mobileHUD.backPressed) {
+        		AstheSound.playSound(ConstantSound.MENU_BACK);
+				FlxG.switchState(() -> new TitleState());
 			}
 		}
 		#end
